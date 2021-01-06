@@ -1,0 +1,19 @@
+config:
+  healthmsg: Local Mode.
+
+
+#Actuator
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info

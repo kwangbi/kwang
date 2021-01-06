@@ -1,0 +1,27 @@
+config:
+  healthmsg: prod Mode.
+
+#Actuator
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+#logging
+spring:
+  profiles:
+    include: console-logging
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: true
