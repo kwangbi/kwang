@@ -19,7 +19,7 @@ import java.util.List;
 public class TestService {
 
     private final Logger logger = LoggerFactory.getLogger(TestService.class);
-    public static final String COLLECTION_NAME = "member";
+    public static final String COLLECTION_NAME = "member/DATA/BOARD";
     private FirebaseOptions option;
     private Firestore db;
 
@@ -94,16 +94,39 @@ public class TestService {
      */
     public String getSubCollection() throws Exception{
         db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> apiFuture = db.collection(COLLECTION_NAME)
-                .whereEqualTo("Board",true).get();
+        ApiFuture<QuerySnapshot> apiFuture = db.collection("member/DATA/BOARD").get();
         List<QueryDocumentSnapshot> documents = apiFuture.get().getDocuments();
 
         logger.info("====> " + documents.size());
 
+        Member member = new Member();
+        List<Member> members = new ArrayList<>();
         for(DocumentSnapshot doc : documents){
             logger.info(doc.getId() + " ==> " + doc.toObject(Member.class));
-        }
+            member = new Member();
+            member.setDocId(doc.getId());
+            member.setUserId(doc.getData().get("userId").toString());
+            member.setUserName(doc.getData().get("userName").toString());
+            member.setTitle(doc.getData().get("title").toString());
+            member.setContent(doc.getData().get("content").toString());
+            member.setPassword(doc.getData().get("password").toString());
+            member.setRegDtm(doc.getData().get("regDtm").toString());
 
+            members.add(member);
+        }
+        logger.info("members ====> " + members.toString());
         return "ok!!";
+    }
+
+
+    public String getTest(Member member) throws Exception{
+        logger.info("member ====> " + member.toString());
+        db = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> apiFuture = db.collection(COLLECTION_NAME)
+                .document().set(member);
+
+        //db.collection(COLLECTION_NAME).add(member);
+
+        return apiFuture.get().getUpdateTime().toString();
     }
 }

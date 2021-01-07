@@ -40,4 +40,9 @@ public class testController {
     public String getSubCollection() throws Exception{
         return testService.getSubCollection();
     }
+
+    @PostMapping("/getTest")
+    public String getTest(@RequestBody Member member) throws Exception{
+        return testService.getTest(member);
+    }
 }

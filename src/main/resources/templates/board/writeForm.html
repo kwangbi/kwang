@@ -60,35 +60,43 @@
 <!-- Begin page content -->
 <main class="flex-shrink-0">
     <div class="container">
-        <h1 class="mt-5">게시판</h1>
+        <h1 class="mt-5">게시판 글쓰기</h1>
     </div>
-
     <div class="container">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">userId</th>
-                <th scope="col">userName</th>
-                <th scope="col">title</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="board,idx : ${boards}">
-                <th scope="row" th:text="${idx.index + 1}" th:value="${boards.get(idx.index).docId}">1</th>
-                <td>
-                    <a href="#" th:text="${boards.get(idx.index).userId}"
-                       th:href="@{/board/writeForm(docId=${boards.get(idx.index).docId})}">Mark</a>
-                </td>
-                <td th:text="${boards.get(idx.index).userName}">Otto</td>
-                <td th:text="${boards.get(idx.index).title}">@mdo</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="#" th:href="@{/board/writeForm}" class="btn btn-primary me-md-2" type="button">등록</a>
-            <a class="btn btn-primary" type="button">삭제</a>
-        </div>
+
+        <form action="#" th:action="@{/board/write}" th:object="${board}" method="post">
+            <input type="hidden" id="docId" name="docId" value="" th:field="*{docId}"/>
+            <div class="form-group">
+                <label for="userId">사용자 ID</label>
+                <input type="text" th:field="*{userId}" class="form-control" id="userId" name="userId" placeholder="사용자ID를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="userName">사용자명</label>
+                <input type="text" th:field="*{userName}" class="form-control" id="userName" name="userName" placeholder="사용자 이름을 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" th:field="*{password}" class="form-control" id="password" name="password" >
+            </div>
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" th:field="*{title}" class="form-control" id="title" name="title" placeholder="제목을 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" th:field="*{content}" id="content" name="content" rows="3"></textarea>
+            </div>
+            <p></p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary me-md-2" type="submit">
+                    <span th:if="${board.docId != null}">수정</span>
+                    <span th:if="${board.docId == null}">등록</span>
+                </button>
+                <a class="btn btn-primary" type="button" th:href="@{/board/list}">취소</a>
+            </div>
+
+        </form>
+
     </div>
 
 </main>

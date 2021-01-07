@@ -2,9 +2,10 @@ package com.yang.kwang.firebase.model;
 
 import lombok.Data;
 
+
 @Data
 public class Board {
-    Long idx;
+    String docId;
     String userId;
     String userName;
     String password;
