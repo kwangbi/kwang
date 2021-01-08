@@ -34,7 +34,7 @@ public class BoardService {
 
         logger.info("====> " + documents.size());
 
-        Board board = new Board();
+        Board board = null;
         List<Board> boards = new ArrayList<>();
         for (DocumentSnapshot doc : documents) {
             logger.info(doc.getId() + " ==> " + doc.toObject(Board.class));
