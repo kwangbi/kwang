@@ -2,6 +2,7 @@ package com.yang.kwang.firebase.controller;
 
 import com.yang.kwang.firebase.model.Board;
 import com.yang.kwang.firebase.service.BoardService;
+import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,12 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    /*
+        삭제
+     */
+    @PostMapping("/delete")
+    public String boardDelete(@Valid Board board, BindingResult bindingResult) throws Exception{
+        boardService.deleteBoardDocument(board);
+        return "redirect:/board/list";
+    }
 }

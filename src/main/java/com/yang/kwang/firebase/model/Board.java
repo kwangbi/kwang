@@ -2,6 +2,8 @@ package com.yang.kwang.firebase.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+
 
 @Data
 public class Board {
@@ -12,4 +14,6 @@ public class Board {
     String title;
     String content;
     String regDtm;
+
+    private ArrayList<String> checkList;
 }

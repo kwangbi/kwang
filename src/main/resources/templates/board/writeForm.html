@@ -89,8 +89,8 @@
             <p></p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-primary me-md-2" type="submit">
-                    <span th:if="${board.docId != null}">수정</span>
                     <span th:if="${board.docId == null}">등록</span>
+                    <span th:if="${board.docId != null}">수정</span>
                 </button>
                 <a class="btn btn-primary" type="button" th:href="@{/board/list}">취소</a>
             </div>

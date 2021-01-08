@@ -56,7 +56,7 @@ public class BoardService {
     /*
         글쓰기 등록
      */
-    public String boardWriteForm(Board board) throws Exception{
+    public String boardWriteForm(Board board) throws Exception {
 
         board.setRegDtm(getTime()); // 등록일시
 
@@ -71,14 +71,14 @@ public class BoardService {
     /*
          글쓰기 내용 조회(Document ID로 조회
      */
-    public Board getBoardDocument(String docId) throws Exception{
+    public Board getBoardDocument(String docId) throws Exception {
         logger.info("getBoardDocument ====> ");
         db = FirestoreClient.getFirestore();
         DocumentReference documentReference = db.collection(COLLECTION_NAME).document(docId);
         ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
         DocumentSnapshot documentSnapshot = apiFuture.get();
         Board board = new Board();
-        if(documentSnapshot.exists()){
+        if (documentSnapshot.exists()) {
             board = documentSnapshot.toObject(Board.class);
 
             board.setDocId(docId);
@@ -87,10 +87,11 @@ public class BoardService {
         logger.info("board ====> " + board.toString());
         return board;
     }
+
     /*
         등록 내용 수정 (Document 내용 수정)
      */
-    public String updateBoardDocument(Board board) throws Exception{
+    public String updateBoardDocument(Board board) throws Exception {
         board.setRegDtm(getTime()); // 수정일시
         db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> apiFuture = db.collection(COLLECTION_NAME)
@@ -99,7 +100,24 @@ public class BoardService {
         return apiFuture.get().getUpdateTime().toString();
     }
 
-    public String getTime(){
+    /*
+        Document 삭제
+     */
+    public String deleteBoardDocument(Board board) throws Exception {
+        db = FirestoreClient.getFirestore();
+
+        logger.info("board ====> " + board.toString());
+        ArrayList<String> docIdList = board.getCheckList();
+
+        for (String docId : docIdList) {
+            logger.info("docId ===> " + docId);
+            ApiFuture<WriteResult> apiFuture = db.collection(COLLECTION_NAME)
+                    .document(docId).delete();
+        }
+        return "ok";
+    }
+
+    public String getTime() {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
         String now = (new SimpleDateFormat("yyyy.MM.dd HH:mm").format(date));
